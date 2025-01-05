@@ -5,7 +5,7 @@ use axum::{
 };
 use kernel::model::id::BookId;
 use registry::AppRegistry;
-use shared::error::{AppResult, AppError};
+use shared::error::{AppError, AppResult};
 
 use crate::model::book::{BookResponse, CreateBookRequest};
 
@@ -21,7 +21,7 @@ pub async fn register_book(
 }
 
 pub async fn show_book_list(
-    State(registry): State<AppRegistry>
+    State(registry): State<AppRegistry>,
 ) -> AppResult<Json<Vec<BookResponse>>> {
     registry
         .book_repository()
@@ -41,6 +41,8 @@ pub async fn show_book(
         .await
         .and_then(|bc| match bc {
             Some(bc) => Ok(Json(bc.into())),
-            None => Err(AppError::EntityNotFound("The spesific book was not found".into())),
+            None => Err(AppError::EntityNotFound(
+                "The spesific book was not found".into(),
+            )),
         })
 }

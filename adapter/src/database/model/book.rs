@@ -1,4 +1,4 @@
-use kernel::model::{book::Book,id::BookId};
+use kernel::model::{book::Book, id::BookId};
 
 pub struct BookRow {
     pub book_id: BookId,

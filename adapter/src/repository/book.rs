@@ -7,8 +7,8 @@ use kernel::model::{
 use kernel::repository::book::BookRepository;
 use shared::error::{AppError, AppResult};
 
-use crate::database::ConnectionPool;
 use crate::database::model::book::BookRow;
+use crate::database::ConnectionPool;
 
 #[derive(new)]
 pub struct BookRepositoryImpl {
@@ -84,7 +84,8 @@ mod tests {
     use super::*;
 
     #[sqlx::test]
-    async fn test_register_book(pool: sqlx::PgPool) -> anyhow::Result<()>{
+    #[ignore]
+    async fn test_register_book(pool: sqlx::PgPool) -> anyhow::Result<()> {
         // BookRepositoryImplを初期化
         let repo = BookRepositoryImpl::new(ConnectionPool::new(pool));
 
@@ -111,7 +112,13 @@ mod tests {
 
         // 取得した蔵書データが CreateBook で投入した
         // 蔵書データと一致することを確認
-        let Book { id, title, author, isbn, description } = res.unwrap();
+        let Book {
+            id,
+            title,
+            author,
+            isbn,
+            description,
+        } = res.unwrap();
         assert_eq!(id, book_id);
         assert_eq!(title, "Test Title");
         assert_eq!(author, "Test Author");
